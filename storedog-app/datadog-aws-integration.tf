@@ -113,12 +113,12 @@ data "aws_iam_policy_document" "datadog_aws_integration" {
 }
 
 resource "aws_iam_policy" "datadog_aws_integration" {
-  name = "DatadogAWSIntegrationPolicy"
+  name = "DatadogAWSIntegrationPolicyV2"
   policy = "${data.aws_iam_policy_document.datadog_aws_integration.json}"
 }
 
 resource "aws_iam_role" "datadog_aws_integration" {
-  name = "DatadogAWSIntegrationRole"
+  name = "DatadogAWSIntegrationRoleV2"
   description = "Role for Datadog AWS Integration"
   assume_role_policy = "${data.aws_iam_policy_document.datadog_aws_integration_assume_role.json}"
 }
@@ -140,7 +140,7 @@ resource "aws_iam_role_policy_attachment" "aws_security_audit" {
 
 resource "datadog_integration_aws" "sandbox" {
   account_id  = "${data.aws_caller_identity.current.account_id}"
-  role_name   = "DatadogAWSIntegrationRole"
+  role_name   = "DatadogAWSIntegrationRoleV2"
   cspm_resource_collection_enabled = true
   host_tags = ["aws_account:${data.aws_caller_identity.current.account_id}","event:aws-x-datadog"]
 }
